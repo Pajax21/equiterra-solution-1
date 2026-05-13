@@ -1,0 +1,1618 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Equiterra Solutions — Gestion forestière durable</title>
+<style>
+  /* ─── Fonts ─────────────────────────────────────────────── */
+  @font-face {
+    font-family: 'Exposure Trial';
+    src: url('assets/fonts/ExposureTrial-20.woff2') format('woff2');
+    font-weight: 400; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'Exposure Trial';
+    src: url('assets/fonts/ExposureItalicTrial-20.woff2') format('woff2');
+    font-weight: 400; font-style: italic; font-display: swap;
+  }
+  @font-face { font-family: 'Manrope'; src: url('assets/fonts/Manrope-Light.woff2')      format('woff2'); font-weight: 300; font-display: swap; }
+  @font-face { font-family: 'Manrope'; src: url('assets/fonts/Manrope-Regular.woff2')    format('woff2'); font-weight: 400; font-display: swap; }
+  @font-face { font-family: 'Manrope'; src: url('assets/fonts/Manrope-Medium.woff2')     format('woff2'); font-weight: 500; font-display: swap; }
+  @font-face { font-family: 'Manrope'; src: url('assets/fonts/Manrope-SemiBold.woff2')   format('woff2'); font-weight: 600; font-display: swap; }
+  @font-face { font-family: 'Manrope'; src: url('assets/fonts/Manrope-Bold.woff2')       format('woff2'); font-weight: 700; font-display: swap; }
+  @font-face { font-family: 'Manrope'; src: url('assets/fonts/Manrope-ExtraBold.woff2')  format('woff2'); font-weight: 800; font-display: swap; }
+
+  /* ─── Tokens ────────────────────────────────────────────── */
+  :root {
+    --forest-900: #2D3D2A;
+    --forest-700: #3F5A3A;
+    --forest-100: #EEF1F0;
+    --gold-700:   #A8801F;
+    --gold-500:   #D6AE4D;
+    --gold-100:   #F5EAC8;
+    --mint-200:   #BBDCAE;
+    --bark-700:   #5E4130;
+    --paper-50:   #FCFCFC;
+    --ink-900:    #151717;
+    --ink-600:    #6D655E;
+    --ink-300:    #C5C5C5;
+    --white:      #FFFFFF;
+
+    --display: 'Exposure Trial', 'Times New Roman', Georgia, serif;
+    --sans:    'Manrope', system-ui, -apple-system, Segoe UI, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper-50);
+    color: var(--ink-900);
+    font-family: var(--sans);
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection { background: var(--gold-500); color: var(--forest-900); }
+  a { color: inherit; text-decoration: none; }
+
+  /* ═══════════════════════════════════════════════════════════
+     HERO  (basé sur le Figma — 1920×1079, split 980/940)
+     ═══════════════════════════════════════════════════════════ */
+
+  .hero-wrapper {
+    position: relative;
+    width: 100%;
+    background: var(--paper-50);
+  }
+
+  /* ── Header (155px, blanc) ── */
+  .site-header {
+    position: relative;
+    z-index: 5;
+    height: 155px;
+    background: var(--white);
+    padding: 0 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+  }
+  .site-header .logo img,
+  .site-header .logo video {
+    height: 80px; width: auto; display: block; object-fit: contain;
+  }
+  .main-nav {
+    display: flex; align-items: center; gap: 25px;
+  }
+  .main-nav a {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-900);
+    position: relative;
+    padding-bottom: 4px;
+    transition: color 150ms ease;
+  }
+  .main-nav a::after {
+    content: ""; position: absolute;
+    left: 0; right: 0; bottom: -2px;
+    height: 1.5px;
+    background: transparent;
+    transition: background 150ms ease;
+  }
+  .main-nav a.active::after { background: var(--forest-900); }
+  .main-nav a:not(.active):hover::after { background: var(--gold-500); }
+
+  .contact-pill {
+    display: inline-flex; align-items: center; gap: 15px;
+    padding: 15px 30px;
+    background: var(--mint-200);
+    color: var(--forest-900);
+    border-radius: 8px;
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 18px;
+    transition: transform 200ms ease;
+  }
+  .contact-pill:hover { transform: scale(1.02); }
+  .contact-pill svg {
+    width: 24px; height: 24px;
+    fill: var(--forest-900);
+  }
+
+  /* ── Hero body : split 50/50 strict (flex) ── */
+  .hero {
+    position: relative;
+    display: flex;
+    width: 100%;
+    min-height: 924px;
+    overflow: hidden;
+  }
+
+  /* Left — forest panel : 50% strict */
+  .hero-left {
+    flex: 1 0 50%;
+    width: 50%;
+    max-width: 50%;
+    background: var(--forest-900);
+    color: var(--white);
+    padding: 80px 100px 80px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+  .hero-left::before {
+    /* overlay removed for exact match with footer green */
+    content: none;
+  }
+  .hero-left > * { position: relative; z-index: 1; }
+
+  /* Hero content group — Figma exact: 860 × 423, gap 40 */
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    width: 860px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .hero-breadcrumbs {
+    display: flex; align-items: center;
+    gap: 12px;
+    margin: 0;
+    font-family: var(--display);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--mint-200);
+    letter-spacing: 0;
+  }
+  .hero-breadcrumbs .dot { color: var(--mint-200); }
+
+  .hero-title {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: 48px;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--white);
+    max-width: 100%;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--white);
+  }
+  .hl-mint { color: var(--mint-200); }
+  .hl-bark { color: var(--bark-700); }
+
+  .hero-subtitle {
+    font-family: var(--sans);
+    font-weight: 800; /* ExtraBold */
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--white);
+    max-width: 720px;
+    margin: 0;
+  }
+
+  .hero-cta {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 16px;
+    margin: 0;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: var(--sans);
+    font-weight: 700; /* Bold */
+    font-size: 18px;
+    line-height: 1.25;
+    height: 83px;
+    padding: 0 28px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 200ms ease;
+    border: 1.5px solid transparent;
+    text-align: center;
+    white-space: normal;
+    box-sizing: border-box;
+  }
+  .btn-primary {
+    background: var(--white);
+    color: var(--forest-900);
+    width: 291px;
+    flex: 0 0 291px;
+    white-space: nowrap;
+  }
+  .btn-primary:hover { background: var(--mint-200); }
+  .btn-secondary {
+    background: transparent;
+    border-color: rgba(252,252,252,0.6);
+    color: var(--white);
+    width: 483px;
+    flex: 0 0 483px;
+    padding: 0 36px;
+  }
+  .btn-secondary:hover { border-color: var(--mint-200); color: var(--mint-200); }
+
+  /* Right — video panel : 50% strict */
+  .hero-right {
+    flex: 1 0 50%;
+    width: 50%;
+    max-width: 50%;
+    position: relative;
+    background: var(--ink-900);
+    overflow: hidden;
+  }
+  .hero-right video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .hero-right::after {
+    /* subtle forest-tinted overlay for chromatic coherence */
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(45,61,42,0.06) 0%, rgba(45,61,42,0.12) 100%);
+    pointer-events: none;
+  }
+
+  /* Right — social column (anchored to right edge of hero) */
+  .social-rail {
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .social-rail a {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--forest-900);
+    transition: all 200ms ease;
+    box-shadow: 0 2px 8px rgba(21,23,23,0.18);
+  }
+  .social-rail a:hover {
+    background: var(--mint-200);
+    transform: scale(1.06);
+  }
+  .social-rail svg { width: 16px; height: 16px; }
+
+  /* Responsive hero (50/50 baseline on all desktop widths, stack on mobile) */
+  @media (max-width: 1100px) {
+    .hero { flex-direction: column; min-height: 0; }
+    .hero-left, .hero-right { flex: 0 0 auto; width: 100%; max-width: 100%; }
+  }
+  @media (max-width: 1400px) {
+    .hero-content { width: 100%; }
+    .btn-primary { width: auto; flex: 0 0 auto; padding: 0 36px; }
+    .btn-secondary { width: auto; flex: 1 1 auto; max-width: 483px; }
+  }
+  @media (max-width: 1100px) {
+    .site-header { padding: 0 40px; height: 100px; }
+    .site-header .logo img,
+    .site-header .logo video { height: 60px; }
+    .main-nav { gap: 18px; }
+    .main-nav a { font-size: 15px; }
+    .contact-pill { padding: 12px 20px; font-size: 15px; }
+    .hero-left { padding: 64px 40px; }
+    .hero-title { font-size: 42px; }
+    .hero-breadcrumbs { font-size: 20px; }
+    .btn { height: 72px; font-size: 17px; }
+    .hero-right { height: 480px; }
+    .social-rail { right: 20px; }
+  }
+  @media (max-width: 700px) {
+    .site-header { padding: 0 24px; height: 80px; }
+    .main-nav { display: none; }
+    .contact-pill { padding: 10px 16px; font-size: 14px; }
+    .contact-pill .num { display: none; }
+    .hero-left { padding: 48px 24px; }
+    .hero-content { gap: 28px; }
+    .hero-title { font-size: 34px; }
+    .hero-breadcrumbs { font-size: 18px; flex-wrap: wrap; }
+    .hero-subtitle { font-size: 16px; }
+    .hero-cta { flex-direction: column; }
+    .btn { width: 100%; height: 64px; font-size: 16px; padding: 0 22px; }
+    .btn-primary, .btn-secondary { width: 100%; flex: 0 0 auto; }
+    .hero-right { height: 360px; }
+    .social-rail { right: 14px; gap: 14px; }
+    .social-rail a { width: 40px; height: 40px; }
+  }
+
+  /* Respect motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-right video { display: none; }
+    .hero-right { background: linear-gradient(135deg, var(--forest-900), var(--forest-700)); }
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     FOOTER — 4 colonnes (Logo · Pages · Contact · Réseaux)
+     ═══════════════════════════════════════════════════════════ */
+
+  footer.site-footer {
+    background: var(--forest-900);
+    color: var(--paper-50);
+    padding: 96px 80px 64px;
+  }
+  .footer-grid {
+    max-width: 1760px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1.2fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .f-col h4 {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.005em;
+    color: var(--white);
+    margin: 0 0 28px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .f-col h4::before {
+    content: "";
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--mint-200);
+    box-shadow: 0 0 0 4px rgba(187,220,174,0.18);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  /* Col 1 — Logo */
+  .f-logo img {
+    width: 240px;
+    height: auto;
+    display: block;
+    /* logo is dark on light by default → invert to display on dark */
+    filter: brightness(0) invert(1);
+  }
+
+  /* Col 2 — Pages */
+  .f-nav { display: flex; flex-direction: column; gap: 16px; }
+  .f-nav a {
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(252,252,252,0.7);
+    transition: color 150ms ease;
+    width: max-content;
+  }
+  .f-nav a:hover { color: var(--gold-500); }
+
+  /* Col 3 — Contact */
+  .f-contact { display: flex; flex-direction: column; gap: 14px; }
+  .f-contact .row {
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(252,252,252,0.7);
+    line-height: 1.5;
+  }
+  .f-contact .row .label {
+    color: var(--white);
+    font-weight: 600;
+    margin-right: 6px;
+  }
+  .f-contact .row a {
+    color: rgba(252,252,252,0.7);
+    text-decoration: underline;
+    text-decoration-color: rgba(252,252,252,0.3);
+    text-underline-offset: 3px;
+    transition: color 150ms ease;
+  }
+  .f-contact .row a:hover { color: var(--gold-500); text-decoration-color: var(--gold-500); }
+
+  /* Col 4 — Social */
+  .f-social { display: flex; gap: 14px; flex-wrap: wrap; }
+  .f-social a {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: rgba(252,252,252,0.08);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--white);
+    transition: all 200ms ease;
+  }
+  .f-social a:hover {
+    background: var(--mint-200);
+    color: var(--forest-900);
+  }
+  .f-social svg { width: 18px; height: 18px; }
+
+  /* Footer bottom bar */
+  .footer-bottom {
+    max-width: 1760px;
+    margin: 80px auto 0;
+    padding-top: 32px;
+    border-top: 1px solid rgba(252,252,252,0.12);
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 24px; flex-wrap: wrap;
+    font-family: var(--sans);
+    font-size: 13px;
+    color: rgba(252,252,252,0.5);
+  }
+  .footer-bottom a:hover { color: var(--gold-500); }
+
+  /* ═══════════════════════════════════════════════════════════
+     REVIEWS — Bloc fixe gauche + flux droite (wow edition)
+     ═══════════════════════════════════════════════════════════ */
+  .reviews {
+    background: var(--paper-50);
+    color: var(--ink-900);
+    padding: 140px 0 130px;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  /* Subtle dot grid backdrop */
+  .reviews::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle at 1px 1px, rgba(45,61,42,0.10) 1px, transparent 1.5px);
+    background-size: 28px 28px;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 18%, #000 82%, transparent 100%);
+            mask-image: linear-gradient(180deg, transparent 0, #000 18%, #000 82%, transparent 100%);
+    opacity: 0.55;
+    z-index: 0;
+    pointer-events: none;
+  }
+  /* Big watermark word floating top-right */
+  .reviews::after {
+    content: "Témoignages";
+    position: absolute;
+    top: 38px;
+    right: -10px;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: clamp(80px, 11vw, 200px);
+    font-weight: 400;
+    line-height: 1;
+    color: var(--forest-900);
+    opacity: 0.05;
+    letter-spacing: -0.03em;
+    z-index: 0;
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+    transform: translate3d(calc(var(--scroll-y, 0) * -420px), calc(var(--scroll-y, 0) * 60px), 0) rotate(calc(var(--scroll-y, 0) * -4deg));
+    will-change: transform;
+  }
+
+  /* ── Scroll reveal primitives ─────────────────────────────── */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(72px);
+    transition: opacity 1100ms cubic-bezier(.16,.84,.24,1),
+                transform 1100ms cubic-bezier(.16,.84,.24,1);
+    will-change: opacity, transform;
+  }
+  [data-reveal="left"]  { transform: translateX(-90px); }
+  [data-reveal="right"] { transform: translateX(90px); }
+  [data-reveal="scale"] { transform: scale(.86); }  [data-reveal].is-in { opacity: 1; transform: none; }
+  [data-delay="1"].is-in { transition-delay: 90ms; }
+  [data-delay="2"].is-in { transition-delay: 180ms; }
+  [data-delay="3"].is-in { transition-delay: 270ms; }
+  [data-delay="4"].is-in { transition-delay: 360ms; }
+
+  .reviews-track-wrap {
+    transform: translateY(calc(var(--scroll-y, 0) * 70px));
+    transition: transform 80ms linear;
+  }
+  .reviews-track .review-card:nth-child(even) {
+    transform: translateY(calc(var(--scroll-y, 0) * -28px));
+    transition: transform 120ms linear;
+  }
+  .reviews-track .review-card:nth-child(odd) {
+    transform: translateY(calc(var(--scroll-y, 0) * 28px));
+    transition: transform 120ms linear;
+  }
+  .service-card:nth-child(1) { transform: translateY(calc(var(--scroll-y, 0) * 36px)); }
+  .service-card:nth-child(2) { transform: translateY(calc(var(--scroll-y, 0) * -18px)); }
+  .service-card:nth-child(3) { transform: translateY(calc(var(--scroll-y, 0) * 18px)); }
+  .service-card:nth-child(4) { transform: translateY(calc(var(--scroll-y, 0) * -36px)); }
+  .service-card.in:nth-child(1),
+  .service-card.in:nth-child(2),
+  .service-card.in:nth-child(3),
+  .service-card.in:nth-child(4) { transition: transform 280ms linear, box-shadow 520ms ease; }
+
+  [data-reveal-soft] {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 700ms cubic-bezier(.2,.7,.2,1) var(--rd, 0ms),
+                transform 700ms cubic-bezier(.2,.7,.2,1) var(--rd, 0ms);
+  }
+  [data-reveal-soft].is-in { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] { opacity: 1 !important; transform: none !important; }
+    .reviews::after, .services::after, .reviews-track-wrap { transform: none !important; }
+  }
+  .reviews-inner {
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 0 80px;
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    gap: 80px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  .reviews-aside {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .reviews-aside {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    position: relative;
+  }
+  .reviews-quote {
+    color: var(--bark-700);
+    line-height: 0;
+    margin: 0 0 -8px;
+    user-select: none;
+    transform: translateX(-4px);
+  }
+  .reviews-quote svg {
+    width: 92px;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 8px 18px rgba(45,61,42,0.18));
+  }
+  .reviews-aside h2 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(38px, 3.2vw, 54px);
+    line-height: 1.02;
+    color: var(--ink-900);
+    margin: 0;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  .reviews-aside h2 .it {
+    font-style: italic;
+    color: var(--bark-700);
+    display: block;
+  }
+  .reviews-rating {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 4px;
+  }
+  .reviews-rating .top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .reviews-rating .score {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--forest-900);
+  }
+    font-size: 22px;
+    color: var(--ink-900);
+  }
+  .reviews-rating .google {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--sans); font-weight: 700; font-size: 18px;
+    color: var(--ink-900);
+  }
+  .reviews-rating .google svg { width: 22px; height: 22px; }
+  .reviews-rating .stars {
+    display: flex;
+    gap: 4px;
+    color: var(--gold-500);
+  }
+  .reviews-rating .stars svg { width: 18px; height: 18px; }
+  .reviews-rating .based {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--ink-900);
+  }
+  .reviews-nav {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .reviews-nav button {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 1.5px solid var(--ink-900);
+    background: transparent;
+    color: var(--ink-900);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 200ms ease;
+  }
+  .reviews-nav button:hover {
+    background: var(--ink-900);
+    color: var(--white);
+  }
+  .reviews-nav svg { width: 18px; height: 18px; }
+
+  .write-review {
+    margin-top: 28px;
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 28px;
+    height: 56px;
+    background: var(--forest-900);
+    color: var(--paper-50);
+    border: 1.5px solid var(--forest-900);
+    border-radius: 8px;
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    transition: background 220ms ease, color 220ms ease, transform 220ms ease,
+                box-shadow 320ms ease;
+  }
+  .write-review svg { width: 18px; height: 18px; transition: transform 320ms cubic-bezier(.2,.7,.2,1); }
+  .write-review:hover {
+    background: var(--paper-50);
+    color: var(--forest-900);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px -12px rgba(45,61,42,0.4);
+  }
+  .write-review:hover svg { transform: rotate(-10deg) translate(-1px, 1px); }
+
+  .reviews-track-wrap {
+    position: relative;
+    cursor: grab;
+    user-select: none;
+    overflow: hidden;
+    padding: 24px 0;
+    -webkit-mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 80px), transparent 100%);
+            mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 80px), transparent 100%);
+  }
+  .reviews-track-wrap.grabbing { cursor: grabbing; }
+  .reviews-track {
+    display: flex;
+    gap: 24px;
+    width: max-content;
+    animation: reviews-scroll 60s linear infinite;
+    will-change: transform;
+  }
+  .reviews-track-wrap:hover .reviews-track,
+  .reviews-track-wrap.paused .reviews-track {
+    animation-play-state: paused;
+  }
+  @keyframes reviews-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .review-card {
+    flex: 0 0 340px;
+    background: var(--white);
+    border-radius: 16px;
+    padding: 30px 30px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    box-shadow: 0 1px 2px rgba(21,23,23,0.04), 0 18px 34px -18px rgba(21,23,23,0.14);
+    transition: transform 380ms cubic-bezier(.2,.7,.2,1), box-shadow 380ms ease;
+    position: relative;
+  }
+  .review-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 1px solid transparent;
+    background: linear-gradient(180deg, rgba(45,61,42,0.10), transparent 40%) border-box;
+    -webkit-mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+  }
+  .review-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 2px 4px rgba(21,23,23,0.06), 0 32px 50px -22px rgba(45,61,42,0.28);
+  }
+  .review-text {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-900);
+    margin: 0;
+    flex: 1;
+    pointer-events: none;
+  }
+  .review-card .review-stars { gap: 4px; }
+  .review-card .review-stars svg { width: 18px; height: 18px; }
+  .review-stars {
+    display: flex;
+    gap: 3px;
+    color: var(--gold-500);
+  }
+  .review-stars svg { width: 16px; height: 16px; }
+  .review-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 4px;
+  }
+  img.review-avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--forest-100);
+    flex-shrink: 0;
+    display: block;
+  }
+  .review-meta { display: flex; flex-direction: column; gap: 2px; }
+  .review-name {
+    font-family: var(--sans); font-weight: 700; font-size: 14px;
+    color: var(--ink-900);
+  }
+  .review-when {
+    font-family: var(--sans); font-weight: 500; font-size: 12px;
+    color: var(--bark-700);
+  }
+  @media (max-width: 1100px) {
+    .reviews { padding: 80px 0; }
+    .reviews-inner { grid-template-columns: 1fr; gap: 48px; padding: 0 40px; }
+    .reviews-quote svg { width: 76px; }
+    .reviews-aside h2 { font-size: 36px; }
+    .review-card { flex: 0 0 300px; }
+  }
+  @media (max-width: 600px) {
+    .reviews { padding: 64px 0; }
+    .reviews-inner { padding: 0 24px; }
+    .reviews-quote svg { width: 64px; }
+    .reviews-aside h2 { font-size: 30px; }
+    .review-card { flex: 0 0 280px; padding: 24px; }
+  }
+  /* Responsive footer */
+  @media (max-width: 1100px) {
+    footer.site-footer { padding: 72px 40px 48px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 56px; }
+  }
+  @media (max-width: 600px) {
+    footer.site-footer { padding: 56px 24px 32px; }
+    .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+    .f-logo img { width: 200px; }
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     SERVICES — Cartes sombres sur papier, animation stagger
+     ═══════════════════════════════════════════════════════════ */
+  .services {
+    background: var(--paper-50);
+    color: var(--ink-900);
+    padding: 140px 0 60px;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .services::before {
+    /* Fine accent line at top, mint gradient — separates from hero */
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(45,61,42,0.18) 40%, rgba(45,61,42,0.18) 60%, transparent);
+    z-index: 1;
+  }
+  /* Big watermark word floating top-right — mirrors reviews */
+  .services::after {
+    content: "Services";
+    position: absolute;
+    top: 38px;
+    right: -10px;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: clamp(80px, 11vw, 200px);
+    font-weight: 400;
+    line-height: 1;
+    color: var(--forest-900);
+    opacity: 0.05;
+    letter-spacing: -0.03em;
+    z-index: 0;
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+    transform: translate3d(calc(var(--scroll-y, 0) * -420px), calc(var(--scroll-y, 0) * 60px), 0) rotate(calc(var(--scroll-y, 0) * -4deg));
+    will-change: transform;
+  }
+  .services-inner {
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 0 80px;
+    position: relative;
+    z-index: 2;
+  }
+  .services-head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 48px;
+    align-items: end;
+    margin-bottom: 72px;
+  }
+  .services-eyebrow {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--forest-900);
+    margin: 0 0 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .services-eyebrow::before {
+    content: "";
+    width: 32px; height: 1.5px;
+    background: linear-gradient(90deg, var(--mint-200), var(--forest-900));
+    display: block;
+  }
+  .services-head h2 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(48px, 4.4vw, 72px);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    color: var(--ink-900);
+    margin: 0;
+    text-wrap: balance;
+    max-width: 900px;
+  }
+  .services-head h2 .it { font-style: italic; color: var(--bark-700); }
+  .services-head .lead {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink-600);
+    max-width: 360px;
+    margin: 0;
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .service-card {
+    position: relative;
+    background: var(--forest-900);
+    color: var(--paper-50);
+    border-radius: 16px;
+    padding: 32px 28px 28px;
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow: hidden;
+    isolation: isolate;
+    cursor: pointer;
+    transition: transform 520ms cubic-bezier(.2,.7,.2,1),
+                box-shadow 520ms ease;
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  .service-card.in {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 720ms ease, transform 720ms cubic-bezier(.2,.7,.2,1);
+  }
+  .service-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 32px 50px -22px rgba(45,61,42,0.45);
+  }
+  /* Animated glow sweep */
+  .service-card::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    background: radial-gradient(600px 200px at var(--mx,50%) var(--my,0%), rgba(187,220,174,0.18), transparent 60%);
+    opacity: 0;
+    transition: opacity 400ms ease;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .service-card:hover::before { opacity: 1; }
+  /* Decorative number watermark */
+  .service-card .num {
+    position: absolute;
+    right: 18px;
+    bottom: 4px;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 180px;
+    line-height: 1;
+    color: rgba(246,244,239,0.06);
+    letter-spacing: -0.04em;
+    z-index: 0;
+    pointer-events: none;
+    user-select: none;
+    transition: color 400ms ease, transform 600ms cubic-bezier(.2,.7,.2,1);
+  }
+  .service-card:hover .num {
+    color: rgba(187,220,174,0.18);
+    transform: translateY(-6px) scale(1.04);
+  }
+  .service-card > * { position: relative; z-index: 1; }
+  .service-card .ico {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: var(--paper-50);
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--bark-700);
+    transition: background 320ms ease, color 320ms ease;
+  }
+  .service-card:hover .ico { background: var(--paper-50); color: var(--bark-700); }
+  .service-card .ico svg { width: 22px; height: 22px; }
+  .service-card h3 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    color: var(--paper-50);
+    margin: 0;
+    text-wrap: balance;
+  }
+  .service-card p {
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: rgba(246,244,239,0.72);
+    margin: 0;
+    flex: 1;
+  }
+  .service-card .more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: var(--mint-200, #BBDCAE);
+    margin-top: 4px;
+  }
+  .service-card .more svg {
+    width: 16px; height: 16px;
+    transition: transform 380ms cubic-bezier(.2,.7,.2,1);
+  }
+  .service-card:hover .more svg { transform: translateX(6px); }
+  /* CTA row */
+  .services-cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 64px;
+  }
+  .services-cta .btn-primary {
+    width: auto;
+    flex: 0 0 auto;
+    padding: 0 44px;
+    height: 64px;
+    font-size: 15px;
+    background: var(--forest-900);
+    color: var(--paper-50);
+    border: 2px solid var(--forest-900);
+    transition: background 220ms ease, color 220ms ease, transform 220ms ease;
+  }
+  .services-cta .btn-primary:hover {
+    background: var(--paper-50);
+    color: var(--forest-900);
+    transform: translateY(-2px);
+  }
+  @media (max-width: 1280px) {
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 1100px) {
+    .services { padding: 96px 0 40px; }
+    .services-inner { padding: 0 40px; }
+    .services-head { grid-template-columns: 1fr; gap: 24px; align-items: start; }
+    .services-head h2 { font-size: 44px; }
+    .service-card { min-height: 320px; }
+    .service-card .num { font-size: 140px; }
+  }
+  @media (max-width: 640px) {
+    .services-inner { padding: 0 24px; }
+    .services-grid { grid-template-columns: 1fr; gap: 16px; }
+    .services-head h2 { font-size: 36px; }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════ HERO ══════════════════════ -->
+<div class="hero-wrapper">
+
+  <header class="site-header" data-screen-label="Header">
+    <a href="#" class="logo" aria-label="Equiterra Solutions — Accueil">
+      <video src="assets/logo-anim.mp4" autoplay loop muted playsinline></video>
+    </a>
+
+    <nav class="main-nav" aria-label="Navigation principale">
+      <a href="#" class="active">Accueil</a>
+      <a href="#services">Services</a>
+      <a href="#news">Actualités</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <a class="contact-pill" href="tel:+33684539887" aria-label="Nous appeler au 06 84 53 98 87">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2a15.05 15.05 0 0 1-6.59-6.58l2.2-2.21c.28-.27.36-.66.25-1.02A11.36 11.36 0 0 1 8.5 4c0-.55-.45-1-1-1H4a1 1 0 0 0-1 1c0 9.39 7.61 17 17 17a1 1 0 0 0 1-1v-3.5c0-.55-.45-1-1-1z"/></svg>
+      <span class="num">06 84 53 98 87</span>
+    </a>
+  </header>
+
+  <section class="hero" data-screen-label="Hero">
+    <div class="hero-left">
+     <div class="hero-content">
+      <div class="hero-breadcrumbs" data-reveal data-delay="1">
+        <span>Conseil aux décideurs</span>
+        <span class="dot">•</span>
+        <span>Recherche de fonds</span>
+        <span class="dot">•</span>
+        <span>Gestion de terrain</span>
+      </div>
+
+      <h1 class="hero-title" data-reveal data-delay="2"><em class="hl-mint" style="color: rgb(187, 218, 174)">20 ans d'expertise</em> au service de la gestion forestière durable.</h1>
+
+      <p class="hero-subtitle" data-reveal data-delay="3">
+        Equiterra Solutions accompagne les États et le secteur privé dans la gestion durable
+        de leurs actifs forestiers en Afrique. Nous transformons la <span class="hl-mint" style="color: rgb(255, 255, 255)">conservation</span> en un levier
+        de profit responsable.
+      </p>
+
+      <div class="hero-cta" data-reveal data-delay="4">
+        <a class="btn btn-primary" href="#contact">Prendre un rendez-vous</a>
+        <a class="btn btn-secondary" href="#whitepaper">Télécharger notre livre blanc les 10 points clés<br/>pour réussir un projet forestier</a>
+      </div>
+     </div><!-- /.hero-content -->
+    </div><!-- /.hero-left -->
+
+    <div class="hero-right" aria-hidden="true">
+      <video src="assets/hero.mp4" autoplay loop muted playsinline></video>
+    </div>
+
+    <div class="social-rail" aria-label="Réseaux sociaux">
+      <a href="#" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+      </a>
+      <a href="#" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7h2.4l.36-2.8H13.5V9.4c0-.82.22-1.37 1.4-1.37h1.5V5.5c-.26-.04-1.16-.11-2.2-.11-2.18 0-3.67 1.33-3.67 3.77v2.04H8.13V14h2.4v7h2.97z"/></svg>
+      </a>
+      <a href="#" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.94 8.5H4.13V20h2.8V8.5zM5.54 4a1.62 1.62 0 1 0 0 3.25 1.62 1.62 0 0 0 0-3.25zM20 13.85c0-3-1.6-4.4-3.74-4.4-1.73 0-2.5.95-2.93 1.61V9.66h-3.25c.04.91 0 11.34 0 11.34h3.25v-6.42c0-.3.02-.59.1-.8.24-.59.78-1.2 1.69-1.2 1.19 0 1.67.91 1.67 2.24V21H20v-7.15z"/></svg>
+      </a>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════════════════ SERVICES ══════════════════════ -->
+<section class="services" data-screen-label="Services" aria-label="Nos services">
+  <div class="services-inner">
+
+    <header class="services-head" data-reveal>
+      <div>
+        <p class="services-eyebrow">Nos expertises</p>
+        <h2>Quatre métiers, <span class="it" style="color: rgb(187, 218, 174)">une seule mission&nbsp;:</span> faire de la forêt un actif durable.</h2>
+      </div>
+      <p class="lead">Du diagnostic stratégique à la mise en œuvre terrain, nous couvrons l'ensemble de la chaîne de valeur forestière en Afrique.</p>
+    </header>
+
+    <div class="services-grid">
+
+      <article class="service-card" data-svc="01" data-reveal data-delay="1">
+        <span class="num" aria-hidden="true">01</span>
+        <span class="ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6"/></svg>
+        </span>
+        <h3>Conseil aux décideurs</h3>
+        <p>Accompagnement stratégique des États, institutions et grands groupes sur leur politique forestière et leur stratégie d'investissement.</p>
+        <span class="more">En savoir plus
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </article>
+
+      <article class="service-card" data-svc="02" data-reveal data-delay="2">
+        <span class="num" aria-hidden="true">02</span>
+        <span class="ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </span>
+        <h3>Recherche de fonds</h3>
+        <p>Montage et levée de capitaux pour projets carbone, biodiversité et restauration forestière, auprès d'investisseurs institutionnels.</p>
+        <span class="more">En savoir plus
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </article>
+
+      <article class="service-card" data-svc="03" data-reveal data-delay="3">
+        <span class="num" aria-hidden="true">03</span>
+        <span class="ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c-3 4-5 7-5 10a5 5 0 0 0 10 0c0-3-2-6-5-10zM12 14v8"/></svg>
+        </span>
+        <h3>Gestion de terrain</h3>
+        <p>Opérations forestières sur site : cartographie, plantation, suivi parcellaire et coordination des équipes locales en zones sensibles.</p>
+        <span class="more">En savoir plus
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </article>
+
+      <article class="service-card" data-svc="04" data-reveal data-delay="4">
+        <span class="num" aria-hidden="true">04</span>
+        <span class="ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V6m6 14v-9m6 9V4m6 16V10"/></svg>
+        </span>
+        <h3>Reporting &amp; ESG</h3>
+        <p>Indicateurs auditables, reporting d'impact et conformité aux standards internationaux (VCS, Gold Standard, TCFD).</p>
+        <span class="more">En savoir plus
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </article>
+
+    </div>
+
+    <div class="services-cta">
+      <a class="btn btn-primary" href="#services">Découvrir tous nos services</a>
+    </div>
+
+  </div>
+
+  <script>
+    (function() {
+      const cards = document.querySelectorAll('.services .service-card');
+      // Stagger reveal on intersection
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          const i = Array.from(cards).indexOf(e.target);
+          setTimeout(() => e.target.classList.add('in'), i * 120);
+          io.unobserve(e.target);
+        });
+      }, { threshold: 0.15 });
+      cards.forEach(c => io.observe(c));
+      // Cursor-tracked glow sweep
+      cards.forEach((c) => {
+        c.addEventListener('pointermove', (ev) => {
+          const r = c.getBoundingClientRect();
+          c.style.setProperty('--mx', ((ev.clientX - r.left) / r.width * 100) + '%');
+          c.style.setProperty('--my', ((ev.clientY - r.top) / r.height * 100) + '%');
+        });
+      });
+    })();
+  </script>
+</section>
+
+<!-- ══════════════════════ REVIEWS ══════════════════════ -->
+<section class="reviews" data-screen-label="Avis Clients" aria-label="Avis clients">
+  <div class="reviews-inner">
+    <aside class="reviews-aside" data-reveal="left">
+      <div class="reviews-quote" aria-hidden="true"><svg viewBox="0 0 80 64" fill="currentColor"><path d="M0 64V36C0 16.1 12.4 2.7 32 0v12.8C20.3 14.9 13.6 22.7 12.8 36H32v28H0zm48 0V36C48 16.1 60.4 2.7 80 0v12.8C68.3 14.9 61.6 22.7 60.8 36H80v28H48z"/></svg></div>
+      <h2>Ce que disent<span class="it">nos partenaires.</span></h2>
+      <div class="reviews-rating">
+        <div class="top">
+          <span class="score">Note de 4,9/5</span>
+          <span class="google" aria-label="Avis Google"><svg viewBox="0 0 48 48" aria-hidden="true">
+          <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.3-.4-3.5z"/>
+          <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16.1 19 13 24 13c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
+          <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/>
+          <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C40 35.3 44 30 44 24c0-1.3-.1-2.3-.4-3.5z"/>
+        </svg>Google</span>
+        </div>
+        <div class="stars" aria-label="4,9 sur 5"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg></div>
+        <span class="based">Sur 127 avis vérifiés</span>
+      </div>
+      <a class="write-review" href="#write-review">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/>
+        </svg>
+        Écrire un avis
+      </a>
+      <div class="reviews-nav">
+        <button type="button" id="reviewsPrev" aria-label="Avis précédents">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+        <button type="button" id="reviewsNext" aria-label="Avis suivants">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </aside>
+
+    <div class="reviews-track-wrap" id="reviewsTrack" data-reveal="right">
+      <div class="reviews-track" id="reviewsLane">
+      <article class="review-card">
+        <p class="review-text">Une expertise forestière inégalée en Afrique. Equiterra a posé un diagnostic d'une précision rare et nous a accompagnés avec beaucoup de pédagogie.</p>
+        <div class="review-stars" aria-label="5 sur 5"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg></div>
+        <div class="review-author">
+          <img class="review-avatar" src="https://i.pravatar.cc/80?img=47" alt="" loading="lazy"/>
+          <div class="review-meta">
+            <span class="review-name">Claire Dubois</span>
+            <span class="review-when">Il y a 2 semaines</span>
+          </div>
+        </div>
+      </article>
+      <article class="review-card">
+        <p class="review-text">Accompagnement stratégique parfait, du cadrage initial au déploiement terrain. Une équipe qui maîtrise aussi bien la finance que la conservation.</p>
+        <div class="review-stars" aria-label="5 sur 5"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg></div>
+        <div class="review-author">
+          <img class="review-avatar" src="https://i.pravatar.cc/80?img=12" alt="" loading="lazy"/>
+          <div class="review-meta">
+            <span class="review-name">Mathieu N'Guessan</span>
+            <span class="review-when">Il y a 1 mois</span>
+          </div>
+        </div>
+      </article>
+      <article class="review-card">
+        <p class="review-text">Un partenaire de confiance pour nos investissements. La recherche de fonds a été menée avec sérieux et nous a ouvert les bonnes portes.</p>
+        <div class="review-stars" aria-label="5 sur 5"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg></div>
+        <div class="review-author">
+          <img class="review-avatar" src="https://i.pravatar.cc/80?img=32" alt="" loading="lazy"/>
+          <div class="review-meta">
+            <span class="review-name">Aïssatou Bah</span>
+            <span class="review-when">Il y a 3 semaines</span>
+          </div>
+        </div>
+      </article>
+      <article class="review-card">
+        <p class="review-text">Vision long terme, rigueur méthodologique, présence terrain : tout y est. Nous recommandons sans hésiter à toute institution sérieuse.</p>
+        <div class="review-stars" aria-label="5 sur 5"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg></div>
+        <div class="review-author">
+          <img class="review-avatar" src="https://i.pravatar.cc/80?img=51" alt="" loading="lazy"/>
+          <div class="review-meta">
+            <span class="review-name">Philippe Lemoine</span>
+            <span class="review-when">Il y a 2 mois</span>
+          </div>
+        </div>
+      </article>
+      <article class="review-card">
+        <p class="review-text">Equiterra Solutions transforme la conservation en véritable levier de valeur. Les livrables sont d'une qualité institutionnelle exemplaire.</p>
+        <div class="review-stars" aria-label="5 sur 5"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg></div>
+        <div class="review-author">
+          <img class="review-avatar" src="https://i.pravatar.cc/80?img=25" alt="" loading="lazy"/>
+          <div class="review-meta">
+            <span class="review-name">Sophie Kassi</span>
+            <span class="review-when">Il y a 1 semaine</span>
+          </div>
+        </div>
+      </article>
+      <article class="review-card">
+        <p class="review-text">Travail exigeant, écoute du contexte local et standards internationaux. C'est ce mélange rare qui fait la différence sur nos projets.</p>
+        <div class="review-stars" aria-label="5 sur 5"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg></div>
+        <div class="review-author">
+          <img class="review-avatar" src="https://i.pravatar.cc/80?img=60" alt="" loading="lazy"/>
+          <div class="review-meta">
+            <span class="review-name">Jean-Olivier Mendy</span>
+            <span class="review-when">Il y a 5 jours</span>
+          </div>
+        </div>
+      </article>
+      <article class="review-card">
+        <p class="review-text">Une expertise forestière inégalée en Afrique. Equiterra a posé un diagnostic d'une précision rare et nous a accompagnés avec beaucoup de pédagogie.</p>
+        <div class="review-stars" aria-label="5 sur 5"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg></div>
+        <div class="review-author">
+          <img class="review-avatar" src="https://i.pravatar.cc/80?img=47" alt="" loading="lazy"/>
+          <div class="review-meta">
+            <span class="review-name">Claire Dubois</span>
+            <span class="review-when">Il y a 2 semaines</span>
+          </div>
+        </div>
+      </article>
+      <article class="review-card">
+        <p class="review-text">Accompagnement stratégique parfait, du cadrage initial au déploiement terrain. Une équipe qui maîtrise aussi bien la finance que la conservation.</p>
+        <div class="review-stars" aria-label="5 sur 5"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg></div>
+        <div class="review-author">
+          <img class="review-avatar" src="https://i.pravatar.cc/80?img=12" alt="" loading="lazy"/>
+          <div class="review-meta">
+            <span class="review-name">Mathieu N'Guessan</span>
+            <span class="review-when">Il y a 1 mois</span>
+          </div>
+        </div>
+      </article>
+      <article class="review-card">
+        <p class="review-text">Un partenaire de confiance pour nos investissements. La recherche de fonds a été menée avec sérieux et nous a ouvert les bonnes portes.</p>
+        <div class="review-stars" aria-label="5 sur 5"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg></div>
+        <div class="review-author">
+          <img class="review-avatar" src="https://i.pravatar.cc/80?img=32" alt="" loading="lazy"/>
+          <div class="review-meta">
+            <span class="review-name">Aïssatou Bah</span>
+            <span class="review-when">Il y a 3 semaines</span>
+          </div>
+        </div>
+      </article>
+      <article class="review-card">
+        <p class="review-text">Vision long terme, rigueur méthodologique, présence terrain : tout y est. Nous recommandons sans hésiter à toute institution sérieuse.</p>
+        <div class="review-stars" aria-label="5 sur 5"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg></div>
+        <div class="review-author">
+          <img class="review-avatar" src="https://i.pravatar.cc/80?img=51" alt="" loading="lazy"/>
+          <div class="review-meta">
+            <span class="review-name">Philippe Lemoine</span>
+            <span class="review-when">Il y a 2 mois</span>
+          </div>
+        </div>
+      </article>
+      <article class="review-card">
+        <p class="review-text">Equiterra Solutions transforme la conservation en véritable levier de valeur. Les livrables sont d'une qualité institutionnelle exemplaire.</p>
+        <div class="review-stars" aria-label="5 sur 5"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg></div>
+        <div class="review-author">
+          <img class="review-avatar" src="https://i.pravatar.cc/80?img=25" alt="" loading="lazy"/>
+          <div class="review-meta">
+            <span class="review-name">Sophie Kassi</span>
+            <span class="review-when">Il y a 1 semaine</span>
+          </div>
+        </div>
+      </article>
+      <article class="review-card">
+        <p class="review-text">Travail exigeant, écoute du contexte local et standards internationaux. C'est ce mélange rare qui fait la différence sur nos projets.</p>
+        <div class="review-stars" aria-label="5 sur 5"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg></div>
+        <div class="review-author">
+          <img class="review-avatar" src="https://i.pravatar.cc/80?img=60" alt="" loading="lazy"/>
+          <div class="review-meta">
+            <span class="review-name">Jean-Olivier Mendy</span>
+            <span class="review-when">Il y a 5 jours</span>
+          </div>
+        </div>
+      </article>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const wrap  = document.getElementById('reviewsTrack');
+      const lane  = document.getElementById('reviewsLane');
+      const prev  = document.getElementById('reviewsPrev');
+      const next  = document.getElementById('reviewsNext');
+      if (!wrap || !lane) return;
+
+      // Disable any CSS animation — we drive offset with rAF for a true infinite loop.
+      lane.style.animation = 'none';
+
+      let offset = 0;             // current translateX, always negative
+      let half = 0;               // half-track width (one full set)
+      let speed = 28;             // px / second (slow, smooth)
+      let last = performance.now();
+      let paused = false;
+      let dragging = false;
+      let dragStartX = 0, dragStartOffset = 0, dragged = false;
+      let targetOffset = null;    // animated step target from arrows
+
+      function measure() {
+        // Compute one-set width using offsetLeft delta — gap-accurate, no rounding drift.
+        const cards = lane.querySelectorAll('.review-card');
+        const setCount = cards.length / 2;
+        if (cards.length >= 2 && setCount >= 1) {
+          half = cards[setCount].offsetLeft - cards[0].offsetLeft;
+        } else {
+          half = lane.scrollWidth / 2;
+        }
+      }
+      measure();
+      window.addEventListener('resize', measure);
+      // Images may shift layout — remeasure when each loads
+      lane.querySelectorAll('img').forEach(img => {
+        if (img.complete) return;
+        img.addEventListener('load', measure, { once: true });
+      });
+
+      function normalize(x) {
+        if (half <= 0) return x;
+        while (x <= -half) x += half;
+        while (x > 0)      x -= half;
+        return x;
+      }
+      function apply() { lane.style.transform = 'translateX(' + offset + 'px)'; }
+
+      function tick(now) {
+        const dt = Math.min(0.05, (now - last) / 1000);
+        last = now;
+        if (targetOffset !== null) {
+          // Ease toward target
+          const diff = targetOffset - offset;
+          if (Math.abs(diff) < 0.5) {
+            offset = targetOffset;
+            targetOffset = null;
+          } else {
+            offset += diff * Math.min(1, dt * 8);
+          }
+          offset = normalize(offset);
+          apply();
+        } else if (!paused && !dragging) {
+          offset -= speed * dt;
+          offset = normalize(offset);
+          apply();
+        }
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame((t) => { last = t; tick(t); });
+
+      // Hover pause
+      wrap.addEventListener('mouseenter', () => { paused = true; });
+      wrap.addEventListener('mouseleave', () => { paused = false; });
+
+      // Drag
+      wrap.addEventListener('pointerdown', (e) => {
+        dragging = true; dragged = false;
+        dragStartX = e.clientX;
+        dragStartOffset = offset;
+        targetOffset = null;
+        wrap.classList.add('grabbing');
+        wrap.setPointerCapture(e.pointerId);
+      });
+      wrap.addEventListener('pointermove', (e) => {
+        if (!dragging) return;
+        const dx = e.clientX - dragStartX;
+        if (Math.abs(dx) > 4) dragged = true;
+        offset = normalize(dragStartOffset + dx);
+        apply();
+      });
+      const release = () => {
+        if (!dragging) return;
+        dragging = false;
+        wrap.classList.remove('grabbing');
+      };
+      wrap.addEventListener('pointerup', release);
+      wrap.addEventListener('pointercancel', release);
+      wrap.addEventListener('pointerleave', release);
+      wrap.addEventListener('click', (e) => {
+        if (dragged) { e.preventDefault(); e.stopPropagation(); }
+      }, true);
+
+      // Arrows — step ~one card
+      function step(dir) {
+        const c = lane.querySelector('.review-card');
+        const w = (c ? c.getBoundingClientRect().width : 340) + 24;
+        const t = (targetOffset !== null ? targetOffset : offset) - dir * w;
+        targetOffset = t;
+      }
+      prev && prev.addEventListener('click', () => step(-1));
+      next && next.addEventListener('click', () => step(1));
+    })();
+  </script>
+</section>
+
+<!-- ══════════════════════ FOOTER ══════════════════════ -->
+<footer class="site-footer" data-screen-label="Footer">
+  <div class="footer-grid">
+
+    <!-- Col 1 — Logo -->
+    <div class="f-col f-logo" data-reveal>
+      <img src="assets/logo-equiterra.png" alt="Equiterra Solutions" />
+    </div>
+
+    <!-- Col 2 — Pages -->
+    <div class="f-col" data-reveal data-delay="1">
+      <h4>Pages</h4>
+      <nav class="f-nav" aria-label="Pied de page — navigation">
+        <a href="#">Accueil</a>
+        <a href="#about">À propos</a>
+        <a href="#news">Actualités</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+
+    <!-- Col 3 — Contact -->
+    <div class="f-col" data-reveal data-delay="2">
+      <h4>Contact</h4>
+      <div class="f-contact">
+        <div class="row">
+          <span class="label">Email :</span>
+          <a href="mailto:mathieu@equiterra-solutions.com">mathieu@equiterra-solutions.com</a>
+        </div>
+        <div class="row">
+          <span class="label">Téléphone :</span>
+          <a href="tel:+33684539887">+33 6 84 53 98 87</a>
+        </div>
+        <div class="row">
+          <span class="label">Siège :</span>
+          Paris, France
+        </div>
+      </div>
+    </div>
+
+    <!-- Col 4 — Réseaux sociaux -->
+    <div class="f-col" data-reveal data-delay="3">
+      <h4>Réseaux sociaux</h4>
+      <div class="f-social">
+        <a href="#" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7h2.4l.36-2.8H13.5V9.4c0-.82.22-1.37 1.4-1.37h1.5V5.5c-.26-.04-1.16-.11-2.2-.11-2.18 0-3.67 1.33-3.67 3.77v2.04H8.13V14h2.4v7h2.97z"/></svg>
+        </a>
+        <a href="#" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.94 8.5H4.13V20h2.8V8.5zM5.54 4a1.62 1.62 0 1 0 0 3.25 1.62 1.62 0 0 0 0-3.25zM20 13.85c0-3-1.6-4.4-3.74-4.4-1.73 0-2.5.95-2.93 1.61V9.66h-3.25c.04.91 0 11.34 0 11.34h3.25v-6.42c0-.3.02-.59.1-.8.24-.59.78-1.2 1.69-1.2 1.19 0 1.67.91 1.67 2.24V21H20v-7.15z"/></svg>
+        </a>
+        <a href="#" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <div>© 2026 Equiterra Solutions — Tous droits réservés.</div>
+    <div>
+      <a href="#">Mentions légales</a>
+      &nbsp;·&nbsp;
+      <a href="#">Politique de confidentialité</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+  // Auto-tag common text elements for subtle reveal
+  document.querySelectorAll('.reviews-aside h2, .reviews-rating, .write-review, .reviews-nav, .services-eyebrow, .services-head h2, .services-head .lead, .services-cta, .f-col h4, .f-nav, .f-contact, .f-social, .review-card').forEach((el, i) => {
+    if (el.hasAttribute('data-reveal')) return;
+    el.setAttribute('data-reveal-soft', '');
+    el.style.setProperty('--rd', ((i % 5) * 70) + 'ms');
+    io.observe(el);
+  });
+
+  const sections = document.querySelectorAll('.reviews, .services');
+  const heroRight = document.querySelector('.hero-right');
+  let ticking = false;
+  function update() {
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    sections.forEach(s => {
+      const r = s.getBoundingClientRect();
+      const p = (r.top + r.height / 2 - vh / 2) / (vh + r.height / 2);
+      s.style.setProperty('--scroll-y', Math.max(-1, Math.min(1, p)).toFixed(3));
+    });
+    if (heroRight) {
+      const sy = Math.min(1, Math.max(0, window.scrollY / vh));
+      heroRight.style.setProperty('--hero-scroll', sy.toFixed(3));
+    }
+    ticking = false;
+  }
+  function onScroll() {
+    if (!ticking) { requestAnimationFrame(update); ticking = true; }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
+})();
+</script>
+
+</body>
+</html>
